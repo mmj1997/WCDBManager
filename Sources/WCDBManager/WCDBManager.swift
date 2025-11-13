@@ -10,7 +10,7 @@ public final class WCDBManager {
                                                                     true).last! + "/DB/db.db"
     var dataBase: Database?
 
-    func createDataBase(_ path: String? = nil) {
+    public func createDataBase(_ path: String? = nil) {
         if path != nil {
             dataBasePath = path
         }
@@ -19,7 +19,7 @@ public final class WCDBManager {
     }
 
     /// 创建表
-    func createTable<T: TableDecodable>(table: String, of ttype: T.Type) -> Void {
+    public func createTable<T: TableDecodable>(table: String, of ttype: T.Type) -> Void {
         do {
             try dataBase?.create(table: table, of: ttype)
         } catch let error {
@@ -28,7 +28,7 @@ public final class WCDBManager {
     }
 
     /// 插入
-    func insertToDb<T: TableEncodable>(objects: [T], intoTable table: String) -> Void {
+    public func insertToDb<T: TableEncodable>(objects: [T], intoTable table: String) -> Void {
         do {
             try dataBase?.insert(objects, intoTable: table)
         } catch let error {
@@ -37,7 +37,7 @@ public final class WCDBManager {
     }
 
     /// 修改
-    func updateToDb<T: TableEncodable>(table: String, on propertys: [PropertyConvertible], with object: T, where condition: Condition? = nil) -> Void {
+    public func updateToDb<T: TableEncodable>(table: String, on propertys: [PropertyConvertible], with object: T, where condition: Condition? = nil) -> Void {
         do {
             try dataBase?.update(table: table, on: propertys, with: object, where: condition)
         } catch let error {
@@ -46,7 +46,7 @@ public final class WCDBManager {
     }
 
     /// 删除
-    func deleteFromDb(fromTable: String, where condition: Condition? = nil) {
+    public func deleteFromDb(fromTable: String, where condition: Condition? = nil) {
         do {
             try dataBase?.delete(fromTable: fromTable, where: condition)
         } catch let error {
@@ -55,7 +55,7 @@ public final class WCDBManager {
     }
 
     /// 查询
-    func qureyFromDb<T: TableDecodable>(fromTable: String, cls cName: T.Type, where condition: Condition? = nil, orderBy orderList: [OrderBy]? = nil) -> [T]? {
+    public func qureyFromDb<T: TableDecodable>(fromTable: String, cls cName: T.Type, where condition: Condition? = nil, orderBy orderList: [OrderBy]? = nil) -> [T]? {
         do {
             let allObjects: [T] = try (dataBase?.getObjects(fromTable: fromTable, where: condition, orderBy: orderList))!
             debugPrint("\(allObjects)")
@@ -67,7 +67,7 @@ public final class WCDBManager {
     }
 
     /// 删除数据表
-    func dropTable(table: String) {
+    public func dropTable(table: String) {
         do {
             try dataBase?.drop(table: table)
         } catch let error {
@@ -76,7 +76,7 @@ public final class WCDBManager {
     }
 
     /// 删除所有与该数据库相关的文件
-    func removeDbFile() {
+    public func removeDbFile() {
         do {
             try dataBase?.close(onClosed: { [weak self] in
                 try self?.dataBase?.removeFiles()
@@ -87,7 +87,7 @@ public final class WCDBManager {
     }
 
     // insert 和 insertOrReplace 函数只有函数名不同，其他参数都一样。
-    func insert<T: TableEncodable>(
+    public func insert<T: TableEncodable>(
         objects: [T], // 需要插入的对象。WCDB Swift 同时实现了可变参数的版本，因此可以传入一个数组，也可以传入一个或多个对象。
         on propertyConvertibleList: [PropertyConvertible]? = nil, // 需要插入的字段
         intoTable table: String // 表名
@@ -100,7 +100,7 @@ public final class WCDBManager {
     }
 
     // 更新
-    func update<T: TableEncodable>(
+    public func update<T: TableEncodable>(
         table: String,
         on propertyConvertibleList: [PropertyConvertible],
         with object: T,
@@ -116,7 +116,7 @@ public final class WCDBManager {
     }
 
     /// 删除
-    func delete(fromTable table: String, // 表名
+    public func delete(fromTable table: String, // 表名
                 where condition: Condition? = nil, // 符合删除的条件
                 orderBy orderList: [OrderBy]? = nil, // 排序的方式
                 limit: Limit? = nil, // 删除的个数
@@ -130,7 +130,7 @@ public final class WCDBManager {
     }
 
     // 查询
-    func getObjects<T: TableDecodable>(
+    public func getObjects<T: TableDecodable>(
         on propertyConvertibleList: [PropertyConvertible],
         fromTable table: String,
         where condition: Condition? = nil,
